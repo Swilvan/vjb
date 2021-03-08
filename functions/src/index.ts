@@ -11,13 +11,17 @@ export const question = functions.https.onRequest((request, response) => {
     const db = admin.database();
     const questions = db.ref("questions");
 
-    questions.push({"name": name, "question": question}, (err) => {
-      if (err == null) {
-        response.send("Question saved!");
-      } else {
-        functions.logger.error("Error saving question", err);
-        response.status(500).send();
-      }
-    });
+    if (name && question) {
+      questions.push({"name": name, "question": question}, (err) => {
+        if (err == null) {
+          response.status(200).send("Question saved!");
+        } else {
+          functions.logger.error("Error saving question", err);
+          response.status(500).send();
+        }
+      });
+    } else {
+      response.status(200).send();
+    }
   });
 });
