@@ -17,31 +17,58 @@
         Heb je een vraag aan aspirant FNV-bestuursleden Jan Ruijtenberg en Bas <b>ACHTERNAAM</b>, stel die dan hier!
     </p>
 
-    <form action="https://us-central1-vraag-jan-en-bas.cloudfunctions.net/question" enctype="application/json" method="POST">
+    <form nosubmit>
         <div class="mb-3">
             <label for="name" class="form-label">Naam</label>
-            <input type="text" class="form-control form-control-lg" id="name" aria-describedby="name-help">
+            <input type="text" class="form-control form-control-lg rounded-0" id="name" aria-describedby="name-help">
             <!--        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
         </div>
         <div class="mb-3">
             <label for="question" class="form-label">Stel je vraag</label>
-            <textarea type="text" class="form-control form-control-lg" id="question"></textarea>
+            <textarea type="text" class="form-control form-control-lg rounded-0" id="question"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Verstuur</button>
+        <button type="button" class="btn btn-primary rounded-0" onclick="askQuestion()">Verstuur</button>
     </form>
 </div>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="/__/firebase/8.2.6/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="/__/firebase/8.2.6/firebase-analytics.js"></script>
+<style>
+    h1{
+        background: rgba(0, 153, 220, 0.75);
+        color: white
+    }
 
-<!-- Initialize Firebase -->
-<script src="/__/firebase/init.js"></script>
+    input, textarea{
+        border-color: rgba(0, 153, 220, 0.75);
+    }
+
+    button.btn.btn-primary{
+        background-color: #62a316;
+        border-color: #62a316;
+    }
+    
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    function askQuestion(){
+        const name = $('#name').val()
+        const question = $('#question').val()
+        const data = {"name": name, "question": question}
+        $.ajax({
+        'type': 'POST',
+        'url': "https://us-central1-vraag-jan-en-bas.cloudfunctions.net/question",
+        'contentType': 'application/json',
+        'data': JSON.stringify(data),
+        'dataType': 'json',
+        'success': (data, status) => alert(status)
+    });
+        
+    }
+</script>
 </body>
 </html>
